@@ -5,335 +5,340 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Горнолыжные курорты мира - Слайд-шоу</title>
     <style>
-        /* СБРОС СТИЛЕЙ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+/* СБРОС СТИЛЕЙ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* ГЛАВНЫЕ ПРАВИЛА ДЛЯ УДАЛЕНИЯ ВСЕЙ ПРОКРУТКИ */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow: hidden;
-        }
+/* ГЛАВНЫЕ ПРАВИЛА ДЛЯ УДАЛЕНИЯ ВСЕЙ ПРОКРУТКИ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* ГЛАВНОЕ ТРЕБОВАНИЕ: ВСЕГДА УБРАНА ПРОКРУТКА */
+    overflow: hidden; 
+}
 
-        .slide {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 0.8s forwards;
-        }
+.slide {
+    width: 100vw;
+    height: 100vh;
+    /* Убеждаемся, что каждый слайд не прокручивается */
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px; /* Уменьшаем вертикальный паддинг */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 0.8s forwards;
+}
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        /* СТИЛИ КОНТЕНТНЫХ БЛОКОВ */
-        
-        .map-container, .resort-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 1200px;
-            width: 100%;
-            max-height: calc(100vh - 80px);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
+/* СТИЛИ КОНТЕНТНЫХ БЛОКОВ */
 
-        .resort-card {
-            padding-right: 120px;
-        }
-        
-        .title-slide {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+.map-container, .resort-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px; /* Уменьшаем внутренний паддинг */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    max-width: 1200px;
+    width: 100%;
+    /* Используем максимум доступной высоты */
+    max-height: 100vh;
+    /* ИЗМЕНЕНИЕ: Убираем прокрутку карточки */
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
-        .title-slide h1 {
-            font-size: 4rem;
-            color: white;
-            text-align: center;
-            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-        }
+.resort-card {
+    padding-right: 20px; 
+}
 
-        .title-slide p {
-            font-size: 1.5rem;
-            color: rgba(255,255,255,0.9);
-            text-align: center;
-        }
+.title-slide {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
 
-        .map-slide {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        }
+.title-slide h1 {
+    font-size: 3rem; /* Немного уменьшен */
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+    margin-bottom: 15px; /* Уменьшен */
+}
 
-        .map-container h2 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-            flex-shrink: 0;
-        }
+.title-slide p {
+    font-size: 1.3rem; /* Немного уменьшен */
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+}
 
-        .world-map {
-            width: 100%;
-            height: auto;
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            border: 2px solid #3498db;
-            background: #e8f4f8;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.map-slide {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
 
-        .map-placeholder {
-            position: relative;
-            width: 150%;
-            height: 150%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #34495e;
-            text-align: center;
-        }
+.map-container h2 {
+    color: #2c3e50;
+    font-size: 2rem; /* Уменьшен */
+    margin-bottom: 15px; /* Уменьшен */
+    text-align: center;
+    flex-shrink: 0;
+}
 
-        .map-placeholder img {
-            max-height: 90%;
-            max-width: 100%;
-            object-fit: contain;
-            flex-shrink: 0;
-            margin-top: 20px;
-        }
+.world-map {
+    width: 100%;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 2px solid #3498db;
+    background: #e8f4f8;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .marker {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #e74c3c;
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 5;
-        }
+.map-placeholder {
+    position: relative;
+    width: 150%;
+    height: 150%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #34495e;
+    text-align: center;
+}
 
-        .marker::before {
-            content: '';
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+.map-placeholder img {
+    max-height: 90%;
+    max-width: 100%;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-top: 10px;
+}
 
-        .marker:hover {
-            transform: rotate(-45deg) scale(1.2);
-            z-index: 10;
-        }
+.marker {
+    position: absolute;
+    width: 25px; /* Уменьшен */
+    height: 25px; /* Уменьшен */
+    background: #e74c3c;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 5;
+}
 
-        .marker-label {
-            position: absolute;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            opacity: 1;
-            pointer-events: auto;
-            transition: opacity 0.3s;
-            z-index: 10;
-        }
+.marker::before {
+    content: '';
+    position: absolute;
+    width: 10px; /* Уменьшен */
+    height: 10px; /* Уменьшен */
+    background: white;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-        .resort-slide {
-            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
-        }
+.marker:hover {
+    transform: rotate(-45deg) scale(1.2);
+    z-index: 10;
+}
 
-        .resort-card h2 {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 8px;
-            flex-shrink: 0;
-        }
+.marker-label {
+    position: absolute;
+    bottom: 30px; /* Скорректирован */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 3px 8px; /* Уменьшен */
+    border-radius: 4px; /* Уменьшен */
+    font-size: 0.8rem; /* Уменьшен */
+    white-space: nowrap;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
 
-        .resort-card .country {
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            flex-shrink: 0;
-        }
+.resort-slide {
+    background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+}
 
-        .resort-image-placeholder {
-            width: 100%;
-            height: 220px;
-            background: linear-gradient(135deg, #e8f4f8 0%, #d5e8ef 100%);
-            border-radius: 15px;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            border: 2px dashed #bdc3c7;
-            overflow: hidden; 
-            flex-shrink: 0;
-        }
-        
-        .resort-image-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+.resort-card h2 {
+    font-size: 2rem; /* Уменьшен */
+    color: #2c3e50;
+    margin-bottom: 6px; /* Уменьшен */
+    flex-shrink: 0;
+}
 
-        .resort-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 18px;
-            flex-shrink: 0;
-        }
+.resort-card .country {
+    font-size: 1rem; /* Уменьшен */
+    color: #7f8c8d;
+    margin-bottom: 12px; /* Уменьшен */
+    flex-shrink: 0;
+}
 
-        .info-item {
-            background: #ecf0f1;
-            padding: 15px;
-            border-radius: 10px;
-        }
+.resort-image-placeholder {
+    width: 100%;
+    height: 180px; /* Уменьшена высота изображения */
+    background: linear-gradient(135deg, #e8f4f8 0%, #d5e8ef 100%);
+    border-radius: 10px;
+    margin-bottom: 12px; /* Уменьшен */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #7f8c8d;
+    border: 1px dashed #bdc3c7;
+    overflow: hidden; 
+    flex-shrink: 0;
+}
 
-        .info-item h3 {
-            color: #16a085;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
+.resort-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-        .info-item p {
-            color: #2c3e50;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+.resort-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Уменьшен minmax */
+    gap: 10px; /* Уменьшен */
+    margin-bottom: 12px; /* Уменьшен */
+    flex-shrink: 0;
+}
 
-        .resort-description {
-            color: #34495e;
-            font-size: 1rem;
-            line-height: 1.55;
-            flex-grow: 0;
-            overflow: visible;
-        }
+.info-item {
+    background: #ecf0f1;
+    padding: 10px; /* Уменьшен */
+    border-radius: 8px;
+}
 
-        /* НАВИГАЦИЯ */
-        .navigation {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            gap: 15px;
-            z-index: 1000;
-        }
+.info-item h3 {
+    color: #16a085;
+    font-size: 0.7rem; /* Уменьшен */
+    text-transform: uppercase;
+    margin-bottom: 3px; /* Уменьшен */
+}
 
-        .nav-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: white;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-        }
+.info-item p {
+    color: #2c3e50;
+    font-size: 1rem; /* Уменьшен */
+    font-weight: bold;
+}
 
-        .nav-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
+.resort-description {
+    color: #34495e;
+    font-size: 0.9rem; /* Уменьшен шрифт описания */
+    line-height: 1.4; /* Уменьшен интерлиньяж */
+    flex-grow: 1; 
+    flex-shrink: 1; 
+    overflow: hidden; /* Убеждаемся, что описание не выйдет за пределы */
+}
 
-        .nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
+/* НАВИГАЦИЯ */
+.navigation {
+    position: fixed;
+    bottom: 20px; /* Уменьшен */
+    right: 20px; /* Уменьшен */
+    display: flex;
+    gap: 10px; /* Уменьшен */
+    z-index: 1000;
+}
 
-        .slide-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-        }
+.nav-btn {
+    width: 50px; /* Уменьшен */
+    height: 50px; /* Уменьшен */
+    border-radius: 50%;
+    background: white;
+    border: none;
+    font-size: 1.3rem; /* Уменьшен */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+}
 
-        .indicator-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            transition: all 0.3s;
-        }
+.nav-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
 
-        .indicator-dot.active {
-            background: white;
-            width: 30px;
-            border-radius: 6px;
-        }
+.nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.slide-indicator {
+    position: fixed;
+    bottom: 25px; /* Уменьшен */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px; /* Уменьшен */
+    z-index: 1000;
+}
+
+.indicator-dot {
+    width: 10px; /* Уменьшен */
+    height: 10px; /* Уменьшен */
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transition: all 0.3s;
+}
+
+.indicator-dot.active {
+    background: white;
+    width: 25px; /* Уменьшен */
+    border-radius: 5px;
+}
 
 /* АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ */
 @media (max-width: 768px) {
     .slide {
-        padding: 10px;
-        padding-bottom: 70px;
+        padding: 5px;
+        padding-bottom: 60px; /* Уменьшен */
     }
 
     .map-container, .resort-card {
-        max-height: calc(100vh - 90px);
-        padding: 12px;
-        padding-right: 12px;
+        max-height: calc(100vh - 70px); /* Скорректировано */
+        padding: 10px;
+        padding-right: 10px;
     }
     
     .title-slide h1 {
-        font-size: 1.8rem;
-        margin-bottom: 12px;
+        font-size: 1.6rem; /* Уменьшен */
+        margin-bottom: 8px;
     }
 
     .title-slide p {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .map-container h2 {
-        font-size: 1.3rem;
-        margin-bottom: 12px;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
     }
 
     .world-map {
-        min-height: 200px;
-        /* НОВЫЙ КОД: Отключаем центрирование на мобильных! */
+        min-height: 180px;
         justify-content: flex-start;
         align-items: flex-start;
     }
@@ -341,8 +346,7 @@
     .map-placeholder {
         width: 100%;
         height: 100%;
-        /* НОВЫЙ КОД ДЛЯ ЗАМЕНЫ ИЗОБРАЖЕНИЯ И СКРЫТИЯ МАРКЕРОВ */
-        background-image: url('https://i.ibb.co/mCt1hsMQ/2025-10-23-16-33-27.png'); /* ⬅️ НОВОЕ ИЗОБРАЖЕНИЕ КАРТЫ */
+        background-image: url('https://i.ibb.co/mCt1hsMQ/2025-10-23-16-33-27.png'); 
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -351,54 +355,51 @@
         align-items: flex-start;
     }
 
-    /* СКРЫВАЕМ СТАРЫЙ ТЕГ <img>, ЧТОБЫ ПОКАЗЫВАЛСЯ ТОЛЬКО ФОН */
     .map-placeholder img {
         display: none; 
     }
 
-    /* СКРЫВАЕМ ВСЕ ЭЛЕМЕНТЫ МАРКЕРОВ */
     .marker, .marker::before, .marker-label {
         display: none !important;
     }
-    /* КОНЕЦ НОВЫХ ПРАВИЛ */
 
     .resort-card h2 {
-        font-size: 1.4rem;
-        margin-bottom: 4px;
+        font-size: 1.2rem; /* Уменьшен */
+        margin-bottom: 2px;
     }
     
     .resort-card .country {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
+        font-size: 0.75rem; /* Уменьшен */
+        margin-bottom: 8px;
     }
 
     .resort-image-placeholder {
-        height: 130px;
-        margin-bottom: 10px;
+        height: 100px; /* Сильно уменьшена высота изображения */
+        margin-bottom: 8px;
     }
 
     .resort-info {
         grid-template-columns: 1fr;
-        gap: 6px;
-        margin-bottom: 10px;
+        gap: 4px; /* Уменьшен */
+        margin-bottom: 8px;
     }
 
     .info-item {
-        padding: 8px;
+        padding: 6px;
     }
 
     .info-item h3 {
-        font-size: 0.65rem;
-        margin-bottom: 3px;
+        font-size: 0.6rem;
+        margin-bottom: 2px;
     }
 
     .info-item p {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     .resort-description {
-        font-size: 0.75rem;
-        line-height: 1.4;
+        font-size: 0.7rem; /* Максимально уменьшен шрифт описания */
+        line-height: 1.3;
     }
 
     .resort-description p {
@@ -406,52 +407,53 @@
     }
 
     .navigation {
-        bottom: 10px;
-        right: 10px;
-        gap: 8px;
-    }
-
-    .nav-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-    }
-
-    .slide-indicator {
-        bottom: 10px;
+        bottom: 5px;
+        right: 5px;
         gap: 6px;
     }
 
+    .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .slide-indicator {
+        bottom: 8px;
+        gap: 4px;
+    }
+
     .indicator-dot {
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
     }
 
     .indicator-dot.active {
-        width: 20px;
+        width: 15px;
     }
 
     #slide-5 div {
         max-width: 100% !important;
-        padding: 0 10px;
+        padding: 0 5px;
     }
-
+    /* Максимально ужатый финальный слайд */
     #slide-5 h1 {
-        font-size: 1.6rem !important;
-        margin-bottom: 15px !important;
+        font-size: 1.4rem !important;
+        margin-bottom: 8px !important;
     }
 
     #slide-5 p {
-        font-size: 0.85rem !important;
-        line-height: 1.5 !important;
-        margin-bottom: 15px !important;
+        font-size: 0.8rem !important;
+        line-height: 1.3 !important;
+        margin-bottom: 8px !important;
     }
 
     #slide-5 p:last-of-type {
-        font-size: 1.3rem !important;
-        margin-top: 20px !important;
+        font-size: 1rem !important;
+        margin-top: 10px !important;
     }
 }
+</style>
     </style>
 </head>
 <body>
@@ -505,7 +507,7 @@
             </div>
             
             <div class="resort-description">
-                <p>Самый известный горнолыжный курорт России, где проходили Олимпийские игры 2014 года. Современная инфраструктура мирового уровня, разнообразные трассы для всех уровней подготовки. Три горнолыжных комплекса: Роза Хутор, Горки Город и Газпром.</p>
+                <p>Самый известный горнолыжный курорт России, ставший ареной зимних Олимпийских игр 2014 года. Он расположен в живописных горах Кавказа, недалеко от Сочи, и сочетает в себе природную красоту, современную инфраструктуру и высокий уровень сервиса. На территории курорта находятся три основных горнолыжных комплекса — Роза Хутор, Горки Город и Газпром, каждый из которых предлагает свои трассы, стили катания и атмосферу. Красная Поляна идеально подходит как для профессиональных спортсменов, так и для новичков: от крутых спусков до учебных склонов с инструкторами. Помимо лыж, здесь можно насладиться панорамами гор, прогуляться по набережным, отдохнуть в отелях мирового уровня и попробовать местную кухню.</p>
             </div>
         </div>
     </div>
@@ -535,7 +537,7 @@
             </div>
             
             <div class="resort-description">
-                <p>Легендарный швейцарский курорт у подножия знаменитого Маттерхорна — самой узнаваемой горы в мире. Один из лучших курортов Европы с катанием круглый год на леднике. Деревня полностью свободна от автомобилей — только электрокары и конные повозки.</p>
+                <p>Легендарный швейцарский курорт, расположенный у подножия знаменитого Маттерхорна — самой узнаваемой горы в мире. Это одно из самых престижных мест для катания в Европе, где зима фактически не заканчивается: на леднике Теодуль можно кататься круглый год. Церматт известен своей атмосферой уюта и экологичностью — в деревне полностью запрещено движение автомобилей, поэтому здесь ездят только электрокары и конные повозки. Курорт предлагает более 300 километров трасс различной сложности, соединяющих Швейцарию и Италию, а также безупречное качество сервиса, отелей и ресторанов. Церматт — место, где альпийская традиция встречается с современным комфортом.</p>
             </div>
         </div>
     </div>
@@ -565,7 +567,7 @@
             </div>
             
             <div class="resort-description">
-                <p>Самый гламурный и дорогой горнолыжный курорт США, любимое место голливудских звезд и миллиардеров. Четыре горы с разным характером катания: Snowmass для семейного отдыха, Aspen Mountain для экспертов, Aspen Highlands для экстремалов и Buttermilk для новичков.</p>
+                <p>Самый гламурный и дорогой горнолыжный курорт США, любимое место голливудских звезд, бизнесменов и миллиардеров. Расположен в штате Колорадо, среди живописных Скалистых гор, Аспен объединяет четыре горы с разным характером катания: Snowmass — для семейного отдыха, Aspen Mountain — для опытных райдеров, Aspen Highlands — для экстремалов, и Buttermilk — для новичков. Аспен известен сочетанием идеальных трасс, яркой ночной жизни и высокого уровня сервиса. Это место, где катание на лыжах становится не просто спортом, а частью элитного стиля жизни. Курорт сочетает дух приключений, атмосферу роскоши и американскую свободу.</p>
             </div>
         </div>
     </div>
