@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Горнолыжные курорты мира - Слайд-шоу</title>
+    <style>
+        /* СБРОС СТИЛЕЙ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ГЛАВНЫЕ ПРАВИЛА ДЛЯ УДАЛЕНИЯ ВСЕЙ ПРОКРУТКИ */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* СТИЛИ КОНТЕНТНЫХ БЛОКОВ */
+        
+        .map-container, .resort-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
+            max-height: calc(100vh - 80px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .resort-card {
+            padding-right: 120px;
+        }
+        
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .title-slide h1 {
+            font-size: 4rem;
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+        }
+
+        .map-slide {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        .map-container h2 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .world-map {
+            width: 100%;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 2px solid #3498db;
+            background: #e8f4f8;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-placeholder {
+            position: relative;
+            width: 150%;
+            height: 150%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #34495e;
+            text-align: center;
+        }
+
+        .map-placeholder img {
+            max-height: 90%;
+            max-width: 100;
+            object-fit: contain;
+            flex-shrink: 0;
+            margin-top: 20px;
+        }
+
+        .marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #e74c3c;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 5;
+        }
+
+        .marker::before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .marker:hover {
+            transform: rotate(-45deg) scale(1.2);
+            z-index: 10;
+        }
+
+        .marker-label {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .resort-slide {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+        }
+
+        .resort-card h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .resort-card .country {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        .resort-image-placeholder {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #e8f4f8 0%, #d5e8ef 100%);
+            border-radius: 15px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            border: 2px dashed #bdc3c7;
+            overflow: hidden; 
+            flex-shrink: 0;
+        }
+        
+        .resort-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .resort-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 18px;
+            flex-shrink: 0;
+        }
+
+        .info-item {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-item h3 {
+            color: #16a085;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .info-item p {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .resort-description {
+            color: #34495e;
+            font-size: 1rem;
+            line-height: 1.55;
+            flex-grow: 0;
+            overflow: visible;
+        }
+
+        /* НАВИГАЦИЯ */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s;
+        }
+
+        .indicator-dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* АДАПТИВНОСТЬ ДЛЯ МАЛЕНЬКИХ ЭКРАНОВ */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 15px; 
+            }
+
+            .map-container, .resort-card {
+                max-height: calc(100vh - 30px); 
+                padding: 15px;
+                padding-right: 15px;
+            }
+            
+            .title-slide h1 {
+                font-size: 2rem;
+            }
+            
+            .resort-card h2 {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .resort-card .country {
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+            }
+
+            .resort-image-placeholder {
+                height: 200px;
+                margin-bottom: 15px;
+            }
+
+            .resort-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .info-item p {
+                font-size: 1.1rem;
+            }
+
+            .resort-description {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide title-slide" id="slide-0">
+        <h1>🏔️ Горнолыжные курорты мира</h1>
+        <p>Лучшие места для горнолыжного туризма</p>
+    </div>
+
+    <div class="slide map-slide" id="slide-1" style="display: none;">
+        <div class="map-container">
+            <h2>География горнолыжного туризма</h2>
+            <div class="world-map">
+                <div class="map-placeholder">
+                    <img src='https://i.ibb.co/M5KwfRzD/2025-10-22-17-45-51.png' style="" alt="Карта мира с горнолыжными курортами">
+                    <div class="marker" style="left: 58.4%; top: 27.5%;">
+                        <div class="marker-label">Церматт, Швейцария</div>
+                    </div>
+                    <div class="marker" style="left: 6.5%; top: 33%;">
+                        <div class="marker-label">Аспен, США</div>
+                    </div>
+                    <div class="marker" style="left: 71.2%; top: 30%;">
+                        <div class="marker-label">Красная Поляна, Россия</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide resort-slide" id="slide-2" style="display: none; background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);">
+        <div class="resort-card">
+            <h2>Красная Поляна</h2>
+            <p class="country">🇷🇺 Россия, Сочи</p>
+            
+            <div class="resort-image-placeholder">
+                <img src="https://i.ibb.co/WpsVWVn3/Krasnaya-Polyana.jpg" alt="Красная Поляна">
+            </div>
+            
+            <div class="resort-info">
+                <div class="info-item">
+                    <h3>Высота</h3>
+                    <p>540-2320 м</p>
+                </div>
+                <div class="info-item">
+                    <h3>Трассы</h3>
+                    <p>102 км</p>
+                </div>
+                <div class="info-item">
+                    <h3>Сезон</h3>
+                    <p>Декабрь-Апрель</p>
+                </div>
+            </div>
+            
+            <div class="resort-description">
+                <p>Самый известный горнолыжный курорт России, где проходили Олимпийские игры 2014 года. Современная инфраструктура мирового уровня, разнообразные трассы для всех уровней подготовки. Три горнолыжных комплекса: Роза Хутор, Горки Город и Газпром. Уникальное сочетание — утром катаешься на снегу, днем можешь искупаться в море.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide resort-slide" id="slide-3" style="display: none; background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);">
+        <div class="resort-card">
+            <h2>Церматт</h2>
+            <p class="country">🇨🇭 Швейцария</p>
+            
+            <div class="resort-image-placeholder">
+                <img src="https://i.ibb.co/9941912w/Zermatt.jpg" alt="Церматт">
+            </div>
+            
+            <div class="resort-info">
+                <div class="info-item">
+                    <h3>Высота</h3>
+                    <p>1620-3883 м</p>
+                </div>
+                <div class="info-item">
+                    <h3>Трассы</h3>
+                    <p>360 км</p>
+                </div>
+                <div class="info-item">
+                    <h3>Сезон</h3>
+                    <p>Круглый год</p>
+                </div>
+            </div>
+            
+            <div class="resort-description">
+                <p>Легендарный швейцарский курорт у подножия знаменитого Маттерхорна — самой узнаваемой горы в мире. Один из лучших курортов Европы с катанием круглый год на леднике. Деревня полностью свободна от автомобилей — только электрокары и конные повозки. Роскошные отели, высококлассные рестораны и непревзойденные виды на Альпы.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide resort-slide" id="slide-4" style="display: none; background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);">
+        <div class="resort-card">
+            <h2>Аспен</h2>
+            <p class="country">🇺🇸 США, Колорадо</p>
+            
+            <div class="resort-image-placeholder">
+                <img src="https://i.ibb.co/XkW5C9qp/Aspen-colorado-Night-winter.jpg" alt="Аспен">
+            </div>
+            
+            <div class="resort-info">
+                <div class="info-item">
+                    <h3>Высота</h3>
+                    <p>2422-3813 м</p>
+                </div>
+                <div class="info-item">
+                    <h3>Трассы</h3>
+                    <p>230 км</p>
+                </div>
+                <div class="info-item">
+                    <h3>Сезон</h3>
+                    <p>Ноябрь-Апрель</p>
+                </div>
+            </div>
+            
+            <div class="resort-description">
+                <p>Самый гламурный и дорогой горнолыжный курорт США, любимое место голливудских звезд и миллиардеров. Четыре горы с разным характером катания: Snowmass для семейного отдыха, Aspen Mountain для экспертов, Aspen Highlands для экстремалов и Buttermilk для новичков. Шикарная инфраструктура, бутики мировых брендов, рестораны мишленовского уровня.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide title-slide" id="slide-5" style="display: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div style="max-width: 900px; text-align: center;">
+            <h1 style="font-size: 3rem; margin-bottom: 40px;">⛷️ Заключение</h1>
+            <p style="font-size: 1.3rem; line-height: 1.8; color: rgba(255,255,255,0.95); margin-bottom: 30px;">
+                Горнолыжный туризм предлагает уникальное сочетание активного отдыха, потрясающих природных пейзажей и комфортной инфраструктуры. От заснеженных склонов Красной Поляны до легендарных вершин Церматта и роскошного Аспена — каждый курорт имеет свой неповторимый характер.
+            </p>
+            <p style="font-size: 1.3rem; line-height: 1.8; color: rgba(255,255,255,0.95);">
+                Выбирая горнолыжный курорт, важно учитывать не только качество трасс, но и высоту, протяженность сезона, доступность и дополнительные возможности для отдыха. Мир горнолыжного туризма открыт для всех — от новичков до профессионалов!
+            </p>
+            <p style="font-size: 1.8rem; margin-top: 50px; color: white;">🏔️ ❄️ 🎿</p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+    </div>
+
+    <div class="slide-indicator" id="indicator"></div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length; 
+
+        function showSlide(n) {
+            if (n >= totalSlides) n = totalSlides - 1;
+            if (n < 0) n = 0;
+            currentSlide = n;
+
+            slides.forEach((slide, index) => {
+                slide.style.display = 'none';
+                if (index === currentSlide) {
+                    slide.style.display = 'flex';
+                    slide.style.animation = 'none';
+                    void slide.offsetWidth; 
+                    slide.style.animation = 'fadeInUp 0.8s forwards';
+                }
+            });
+
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+
+            updateIndicator();
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        function updateIndicator() {
+            const indicator = document.getElementById('indicator');
+            indicator.innerHTML = '';
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'indicator-dot' + (i === currentSlide ? ' active' : '');
+                dot.onclick = () => showSlide(i);
+                indicator.appendChild(dot);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
