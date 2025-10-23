@@ -352,22 +352,22 @@
         height: 100%;
     }
 
-    /* Церматт (Швейцария): Сдвигаем влево с ~58.7% до 35% и вверх с ~27.8% до 15% */
+            /* Церматт (Швейцария): Сдвигаем влево и вверх */
     .map-placeholder .marker:nth-child(2) { 
-        left: 47%; 
-        top: 11%;  
+        left: 35% !important; /* Добавили !important */
+        top: 15% !important;  /* Добавили !important */
     }
 
-    /* Аспен (США): Сдвигаем влево с ~9.5% до 0% и вверх с ~35% до 20% */
+    /* Аспен (США) */
     .map-placeholder .marker:nth-child(3) {
-        left: 7%; 
-        top: 25%;  
+        left: 0% !important; 
+        top: 20% !important;  
     }
 
-    /* Красная Поляна (Россия): Сдвигаем влево с ~72.2% до 45% и вверх с ~30% до 17% */
+    /* Красная Поляна (Россия) */
     .map-placeholder .marker:nth-child(4) {
-        left: 46%; 
-        top: 25%;  
+        left: 45% !important; 
+        top: 17% !important;  
     }
 
     .map-placeholder img {
