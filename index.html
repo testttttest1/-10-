@@ -119,7 +119,7 @@
 
         .map-placeholder img {
             max-height: 90%;
-            max-width: 100;
+            max-width: 100%;
             object-fit: contain;
             flex-shrink: 0;
             margin-top: 20px;
@@ -304,50 +304,152 @@
             border-radius: 6px;
         }
 
-        /* АДАПТИВНОСТЬ ДЛЯ МАЛЕНЬКИХ ЭКРАНОВ */
+        /* АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ */
         @media (max-width: 768px) {
             .slide {
-                padding: 15px; 
+                padding: 10px;
+                padding-bottom: 70px;
             }
 
             .map-container, .resort-card {
-                max-height: calc(100vh - 30px); 
-                padding: 15px;
-                padding-right: 15px;
+                max-height: calc(100vh - 90px);
+                padding: 12px;
+                padding-right: 12px;
             }
             
             .title-slide h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                margin-bottom: 12px;
+            }
+
+            .title-slide p {
+                font-size: 1rem;
+            }
+
+            .map-container h2 {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+            }
+
+            .world-map {
+                min-height: 200px;
+            }
+
+            .map-placeholder {
+                width: 100%;
+                height: 100%;
+            }
+
+            .map-placeholder img {
+                max-width: 100%;
+                max-height: 100%;
+                margin-top: 10px;
+            }
+
+            .marker {
+                width: 18px;
+                height: 18px;
+            }
+
+            .marker::before {
+                width: 8px;
+                height: 8px;
+            }
+
+            .marker-label {
+                font-size: 0.65rem;
+                padding: 2px 5px;
+                bottom: 20px;
             }
             
             .resort-card h2 {
-                font-size: 1.8rem;
-                margin-bottom: 10px;
+                font-size: 1.4rem;
+                margin-bottom: 4px;
             }
             
             .resort-card .country {
-                font-size: 1.1rem;
-                margin-bottom: 15px;
+                font-size: 0.85rem;
+                margin-bottom: 10px;
             }
 
             .resort-image-placeholder {
-                height: 200px;
-                margin-bottom: 15px;
+                height: 130px;
+                margin-bottom: 10px;
             }
 
             .resort-info {
                 grid-template-columns: 1fr;
-                gap: 10px;
-                margin-bottom: 15px;
+                gap: 6px;
+                margin-bottom: 10px;
+            }
+
+            .info-item {
+                padding: 8px;
+            }
+
+            .info-item h3 {
+                font-size: 0.65rem;
+                margin-bottom: 3px;
             }
 
             .info-item p {
-                font-size: 1.1rem;
+                font-size: 0.9rem;
             }
 
             .resort-description {
-                font-size: 0.9rem;
-                line-height: 1.5;
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+
+            .resort-description p {
+                margin: 0;
+            }
+
+            .navigation {
+                bottom: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .slide-indicator {
+                bottom: 10px;
+                gap: 6px;
+            }
+
+            .indicator-dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .indicator-dot.active {
+                width: 20px;
+            }
+
+            #slide-5 div {
+                max-width: 100% !important;
+                padding: 0 10px;
+            }
+
+            #slide-5 h1 {
+                font-size: 1.6rem !important;
+                margin-bottom: 15px !important;
+            }
+
+            #slide-5 p {
+                font-size: 0.85rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 15px !important;
+            }
+
+            #slide-5 p:last-of-type {
+                font-size: 1.3rem !important;
+                margin-top: 20px !important;
             }
         }
     </style>
@@ -363,14 +465,14 @@
             <h2>География горнолыжного туризма</h2>
             <div class="world-map">
                 <div class="map-placeholder">
-                    <img src='https://i.ibb.co/M5KwfRzD/2025-10-22-17-45-51.png' style="" alt="Карта мира с горнолыжными курортами">
-                    <div class="marker" style="left: 58.4%; top: 27.5%;">
+                    <img src='https://i.ibb.co/M5KwfRzD/2025-10-22-17-45-51.png' alt="Карта мира с горнолыжными курортами">
+                    <div class="marker" style="left: 58.7%; top: 27.8%;">
                         <div class="marker-label">Церматт, Швейцария</div>
                     </div>
-                    <div class="marker" style="left: 6.5%; top: 33%;">
+                    <div class="marker" style="left: 9.5%; top: 35%;">
                         <div class="marker-label">Аспен, США</div>
                     </div>
-                    <div class="marker" style="left: 71.2%; top: 30%;">
+                    <div class="marker" style="left: 72.2%; top: 30%;">
                         <div class="marker-label">Красная Поляна, Россия</div>
                     </div>
                 </div>
@@ -403,7 +505,7 @@
             </div>
             
             <div class="resort-description">
-                <p>Самый известный горнолыжный курорт России, где проходили Олимпийские игры 2014 года. Современная инфраструктура мирового уровня, разнообразные трассы для всех уровней подготовки. Три горнолыжных комплекса: Роза Хутор, Горки Город и Газпром. Уникальное сочетание — утром катаешься на снегу, днем можешь искупаться в море.</p>
+                <p>Самый известный горнолыжный курорт России, где проходили Олимпийские игры 2014 года. Современная инфраструктура мирового уровня, разнообразные трассы для всех уровней подготовки. Три горнолыжных комплекса: Роза Хутор, Горки Город и Газпром.</p>
             </div>
         </div>
     </div>
@@ -433,7 +535,7 @@
             </div>
             
             <div class="resort-description">
-                <p>Легендарный швейцарский курорт у подножия знаменитого Маттерхорна — самой узнаваемой горы в мире. Один из лучших курортов Европы с катанием круглый год на леднике. Деревня полностью свободна от автомобилей — только электрокары и конные повозки. Роскошные отели, высококлассные рестораны и непревзойденные виды на Альпы.</p>
+                <p>Легендарный швейцарский курорт у подножия знаменитого Маттерхорна — самой узнаваемой горы в мире. Один из лучших курортов Европы с катанием круглый год на леднике. Деревня полностью свободна от автомобилей — только электрокары и конные повозки.</p>
             </div>
         </div>
     </div>
@@ -463,7 +565,7 @@
             </div>
             
             <div class="resort-description">
-                <p>Самый гламурный и дорогой горнолыжный курорт США, любимое место голливудских звезд и миллиардеров. Четыре горы с разным характером катания: Snowmass для семейного отдыха, Aspen Mountain для экспертов, Aspen Highlands для экстремалов и Buttermilk для новичков. Шикарная инфраструктура, бутики мировых брендов, рестораны мишленовского уровня.</p>
+                <p>Самый гламурный и дорогой горнолыжный курорт США, любимое место голливудских звезд и миллиардеров. Четыре горы с разным характером катания: Snowmass для семейного отдыха, Aspen Mountain для экспертов, Aspen Highlands для экстремалов и Buttermilk для новичков.</p>
             </div>
         </div>
     </div>
